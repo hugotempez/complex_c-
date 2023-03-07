@@ -19,13 +19,18 @@ class Complex {
         double imaginary;
 
     public:
-        Complex(double r, double i);
-        explicit Complex(string s);
-        void humanReadable();
-        Complex operator+(Complex object);
-        Complex operator-(Complex object);
-        Complex operator*(Complex object);
-        //Complex operator/();
+        Complex(double r, double i);            //fonctionnel
+        explicit Complex(string s);             //fonctionnel
+        void humanReadable();                   //fonctionnel
+        string toString();                      //fonctionnel
+        Complex operator +(Complex object);     //fonctionnel
+        Complex operator -(Complex object);     //fonctionnel
+        Complex operator *(Complex object);     //fonctionnel
+        Complex operator /(Complex object);     //fonctionnel
+        Complex conjugué();                     //fonctionnel
+        double module();                        //fonctionnel a affiner
+        Complex opposé();                       //fonctionnel
+        Complex inverse();                      //fonctionnel
 };
 
 

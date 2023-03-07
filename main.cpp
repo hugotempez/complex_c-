@@ -16,17 +16,34 @@ void info() {
 
 int main() {
     info();
-    Complex testComplexDouble = Complex(1.1, -2.1);
-    testComplexDouble.humanReadable();
 
-    Complex testComplexString = Complex("8.1+3.9i");
-    testComplexString.humanReadable();
+    Complex testComplexDouble = Complex(1.1, 1);
+    cout << "Test constructeur double = " << testComplexDouble.toString() << endl;
+
+    Complex testComplexString = Complex("1.1+1i");
+    cout << "Test constructeur string = " << testComplexString.toString() << endl;
 
     Complex add = testComplexDouble + testComplexString;
-    add.humanReadable();
+    cout << "Test addition = " << add.toString() << endl;
 
     Complex min = testComplexDouble - testComplexString;
-    min.humanReadable();
+    cout << "Test soustraction = " << min.toString() << endl;
+
+    Complex time = Complex(-3, 1) * Complex(2, 5);
+    cout << "Test multiplication = " << time.toString() << endl;
+
+    Complex division = Complex(1, 2) / Complex(3, -1);
+    cout << "Test division = " << division.toString() << endl;
+    division.humanReadable();
+
+    double module = Complex(3, -5).module();
+    cout << module << endl;
+
+    Complex opposé = Complex(2, -6).opposé();
+    cout << opposé.toString() << endl;
+
+    Complex inverse = Complex(3, -5).inverse();
+    cout << inverse.toString() << endl;
 
     /** Permet uniquement d'empécher le programme de se fermer */
     int stopQuit;
