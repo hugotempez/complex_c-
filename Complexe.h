@@ -21,15 +21,20 @@ class Complex {
     public:
         Complex(double r, double i);            //fonctionnel
         explicit Complex(string s);             //fonctionnel
-        void humanReadable();                   //fonctionnel
+
+        double getReal() const;
+        double getImaginary() const;
+        void setReal(double real);
+        void setImaginary(double imaginary);
+
         string toString();                      //fonctionnel
         Complex operator +(Complex object);     //fonctionnel
         Complex operator -(Complex object);     //fonctionnel
         Complex operator *(Complex object);     //fonctionnel
         Complex operator /(Complex object);     //fonctionnel
-        Complex conjugué();                     //fonctionnel
+        Complex conjugue();                     //fonctionnel
         double module();                        //fonctionnel a affiner
-        Complex opposé();                       //fonctionnel
+        Complex oppose();                       //fonctionnel
         Complex inverse();                      //fonctionnel
 };
 

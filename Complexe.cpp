@@ -39,16 +39,20 @@ Complex::Complex(string s) {
 }
 
 
-void Complex::humanReadable() {
-    if (imaginary == 1) {
-        cout << real << "+i" << endl;
-    } else if (imaginary == 0) {
-        cout << real << endl;
-    } else if (imaginary > 0) {
-        cout << real << "+i" << imaginary << endl;
-    } else if (imaginary < 0) {
-        cout << real << "-i" << -imaginary << endl;
-    }
+double Complex::getReal() const {
+    return real;
+}
+
+double Complex::getImaginary() const {
+    return imaginary;
+}
+
+void Complex::setReal(double r) {
+    Complex::real = r;
+}
+
+void Complex::setImaginary(double i) {
+    Complex::imaginary = i;
 }
 
 
@@ -60,7 +64,7 @@ string Complex::toString() {
     } else if (imaginary > 0) {
         return to_string(real) + "+i" + to_string(imaginary);
     } else if (imaginary < 0) {
-        return to_string(real) + "-i" + to_string(-imaginary);
+        return to_string(real) + "-i" + to_string(imaginary);
     }
 }
 
@@ -83,7 +87,7 @@ Complex Complex::operator *(Complex object) {
 
 
 Complex Complex::operator /(Complex object) {
-    Complex numerator = Complex(real, imaginary) * object.conjugué();
+    Complex numerator = Complex(real, imaginary) * object.conjugue();
     double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
     double r = numerator.real / denominator;
     double i = numerator.imaginary / denominator;
@@ -91,7 +95,7 @@ Complex Complex::operator /(Complex object) {
 }
 
 
-Complex Complex::conjugué() {
+Complex Complex::conjugue() {
     return Complex(real, -imaginary);
 }
 
@@ -101,11 +105,11 @@ double Complex::module() {
 }
 
 
-Complex Complex::opposé() {
+Complex Complex::oppose() {
     return Complex(-real, -imaginary);
 }
 
 
 Complex Complex::inverse() {
-    return Complex(real, imaginary).conjugué() / (Complex(real, imaginary) * Complex(real, imaginary).conjugué());
+    return Complex(real, imaginary).conjugue() / (Complex(real, imaginary) * Complex(real, imaginary).conjugue());
 }

@@ -7,46 +7,106 @@ using namespace std;
 
 
 void info() {
-    cout << "Concernant le constructeur prenant un string en paramétre :" << endl;
-    cout << "\t- La virgule doit être représenté par un point UNIQUEMENT." << endl;
-    cout << "\t- le \"i\" de le partie imaginaire peut être placé aprés l'operateur ou a la fin de la partie imaginaire" << endl;
+    cout << "!!!!!!!!!!!!!!!! INFO !!!!!!!!!!!!!!!!" << endl;
+    cout << "Les accents sont absents car ne s'affichant pas correctement." << endl;
+    cout << "Concernant le constructeur prenant un string en parametre :" << endl;
+    cout << "\t- la virgule doit etre represente par un point UNIQUEMENT." << endl;
+    cout << "\t- le \"i\" de le partie imaginaire peut etre place apres l'operateur ou a la fin de la partie imaginaire" << endl;
     cout << "\n";
+}
+
+
+string saisie() {
+    string c;
+    cout << "Saisissez un complexe valide : ";
+    cin >> c;
+    return c;
+}
+
+
+int calcul() {
+    string c1string = saisie();
+    int choice = 0;
+    cout << "Saisissez le chiffre associe a l'operateur desire : " << endl;
+    cout << "\t1. +" << "\n" << "\t2. -" << "\n" << "\t3. *" << "\n" << "\t4. /" << endl;
+    cout << "Votre choix : ";
+    try {
+        cin >> choice;
+    } catch (...) {
+        cout << "Votre saisie n'est pas au format escompte (1, 2, 3 ou 4 uniquement)" << endl;
+        return -1;
+    }
+    string c2string = saisie();
+    switch (choice) {
+        case 1:
+            cout << "\n" << "(" << c1string << ")" << " + " << "(" << c2string << ")" << " = ";
+            cout << Complex(Complex(c1string) + Complex(c2string)).toString() << "\n"  << endl;
+            cout << "Retour au menu principal." << "\n" << endl;
+            return 0;
+        case 2:
+            cout << "\n" << "(" << c1string << ")" << " - " << "(" << c2string << ")" << " = ";
+            cout << Complex(Complex(c1string) - Complex(c2string)).toString() << "\n"  << endl;
+            cout << "Retour au menu principal." << "\n" << endl;
+            return 0;
+        case 3:
+            cout << "\n" << "(" << c1string << ")" << " * " << "(" << c2string << ")" << " = ";
+            cout << Complex(Complex(c1string) * Complex(c2string)).toString() << "\n"  << endl;
+            cout << "Retour au menu principal." << "\n" << endl;
+            return 0;
+        case 4:
+            cout << "\n" << "(" << c1string << ")" << " / " << "(" << c2string << ")" << " = ";
+            cout << Complex(Complex(c1string) / Complex(c2string)).toString() << "\n"  << endl;
+            cout << "Retour au menu principal." << "\n" << endl;
+            return 0;
+        default:
+            cout << "Choix non reconnu, retour au menu principal" << "\n" << endl;
+            return -1;
+    }
+}
+
+
+void menu() {
+    while (true) {
+        int choice = 0;
+        cout << "Choisissez l'operation a effectuer :" << endl;
+        cout << "\t1. Calcul Arithmetique." << "\n" << "\t2. Conjugue." << "\n" <<  "\t3. Module." << endl;
+        cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "Votre choix : " << endl;
+        try {
+            cin >> choice;
+        } catch (...) {
+            cout << "Votre saisie n'est pas au format escompte (1, 2, 3, 4 ou 5 uniquement)" << endl;
+            choice = 0;
+        }
+        system("cls");
+        switch (choice) {
+            case 1:
+                calcul();
+                break;
+            case 2:
+                cout << Complex(saisie()).conjugue().toString() << endl;
+                break;
+            case 3:
+                cout << Complex(saisie()).module() << endl;
+                break;
+            case 4:
+                saisie();
+                cout << Complex(saisie()).oppose().toString() << endl;
+                break;
+            case 5:
+                saisie();
+                cout << Complex(saisie()).inverse().toString() << endl;
+                break;
+            default:
+                cout << choice << " n'est pas un nombre valide dans ce menu, veuillez recommencer votre saisie.\n" << endl;
+                menu();
+                break;
+        }
+    }
 }
 
 
 int main() {
     info();
-
-    Complex testComplexDouble = Complex(1.1, 1);
-    cout << "Test constructeur double = " << testComplexDouble.toString() << endl;
-
-    Complex testComplexString = Complex("1.1+1i");
-    cout << "Test constructeur string = " << testComplexString.toString() << endl;
-
-    Complex add = testComplexDouble + testComplexString;
-    cout << "Test addition = " << add.toString() << endl;
-
-    Complex min = testComplexDouble - testComplexString;
-    cout << "Test soustraction = " << min.toString() << endl;
-
-    Complex time = Complex(-3, 1) * Complex(2, 5);
-    cout << "Test multiplication = " << time.toString() << endl;
-
-    Complex division = Complex(1, 2) / Complex(3, -1);
-    cout << "Test division = " << division.toString() << endl;
-    division.humanReadable();
-
-    double module = Complex(3, -5).module();
-    cout << module << endl;
-
-    Complex opposé = Complex(2, -6).opposé();
-    cout << opposé.toString() << endl;
-
-    Complex inverse = Complex(3, -5).inverse();
-    cout << inverse.toString() << endl;
-
-    /** Permet uniquement d'empécher le programme de se fermer */
-    int stopQuit;
-    cin >> stopQuit;
+    menu();
     return 0;
 }
