@@ -19,23 +19,28 @@ class Complex {
         double imaginary;
 
     public:
-        Complex(double r, double i);            //fonctionnel
-        explicit Complex(string s);             //fonctionnel
+        Complex(double r=0, double i=0);                    //fonctionnel
+        explicit Complex(const string& s);              //fonctionnel
 
-        double getReal() const;
-        double getImaginary() const;
-        void setReal(double real);
-        void setImaginary(double imaginary);
+        double getReal() const;                         //fonctionnel
+        double getImaginary() const;                    //fonctionnel
+        void setReal(double real);                      //fonctionnel
+        void setImaginary(double imaginary);            //fonctionnel
 
-        string toString();                      //fonctionnel
-        Complex operator +(Complex object);     //fonctionnel
-        Complex operator -(Complex object);     //fonctionnel
-        Complex operator *(Complex object);     //fonctionnel
-        Complex operator /(Complex object);     //fonctionnel
-        Complex conjugue();                     //fonctionnel
-        double module();                        //fonctionnel a affiner
-        Complex oppose();                       //fonctionnel
-        Complex inverse();                      //fonctionnel
+        Complex operator +(Complex object) const;       //fonctionnel
+        Complex operator -(Complex object) const;       //fonctionnel
+        Complex operator *(Complex object) const;       //fonctionnel
+        Complex operator /(Complex object) const;       //fonctionnel
+        void operator +=(Complex object);
+        void operator -=(Complex object);
+        void operator *=(Complex object);
+        void operator /=(Complex object);
+
+        Complex conjugue() const;                       //fonctionnel
+        double module() const;                          //fonctionnel a affiner
+        Complex oppose() const;                         //fonctionnel
+        Complex inverse() const;                        //fonctionnel
+        string toString() const;                        //fonctionnel
 };
 
 

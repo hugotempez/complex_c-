@@ -11,7 +11,7 @@ void info() {
     cout << "Les accents sont absents car ne s'affichant pas correctement." << endl;
     cout << "Concernant le constructeur prenant un string en parametre :" << endl;
     cout << "\t- la virgule doit etre represente par un point UNIQUEMENT." << endl;
-    cout << "\t- le \"i\" de le partie imaginaire peut etre place apres l'operateur ou a la fin de la partie imaginaire" << endl;
+    cout << "\t- le \"i\" de le partie imaginaire doit etre place a la fin de cette partie imaginaire" << endl;
     cout << "\n";
 }
 
@@ -70,7 +70,7 @@ void menu() {
         int choice = 0;
         cout << "Choisissez l'operation a effectuer :" << endl;
         cout << "\t1. Calcul Arithmetique." << "\n" << "\t2. Conjugue." << "\n" <<  "\t3. Module." << endl;
-        cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "Votre choix : " << endl;
+        cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "\t6. Tests" << "\n" << "Votre choix : " << endl;
         try {
             cin >> choice;
         } catch (...) {
@@ -96,6 +96,13 @@ void menu() {
                 saisie();
                 cout << Complex(saisie()).inverse().toString() << endl;
                 break;
+            case 6:
+            {
+                Complex comp = Complex(saisie());
+                cout << "partie reel = " << comp.getReal() << "\n" << "partie imaginaire = " << comp.getImaginary() << endl;
+                cout << comp.toString() << endl;
+                break;
+            }
             default:
                 cout << choice << " n'est pas un nombre valide dans ce menu, veuillez recommencer votre saisie.\n" << endl;
                 menu();

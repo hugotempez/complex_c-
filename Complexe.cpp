@@ -4,6 +4,7 @@
 
 #include "Complexe.h"
 #include "cmath"
+#include <regex>
 
 
 using namespace std;
@@ -15,27 +16,35 @@ Complex::Complex(double r, double i) {
 }
 
 
-Complex::Complex(string s) {
-    string realStr;
-    string imaginaryStr;
-    string tmp;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] != '+' and s[i] != '-' and s[i] != 'i') {
-            tmp += s[i];
-        } else if (s[i] == '+') {
-            realStr = tmp;
-            tmp = "";
-        } else if (s[i] == '-') {
-            realStr = tmp;
-            tmp = "";
-            imaginaryStr += "-";
-        } else if (s[i] == 'i') {
-            continue;
+Complex::Complex(const string& s) {
+    regex pattern(R"(^[-+]?\d*.?\d*i?[-+]?[-+]?\d*.?\d*i?$)");
+    if (regex_match(s, pattern)) {
+        string tmp, rString, iString;
+        bool hasI = false;
+        for (int i = 0; i < s.length(); i++) {
+            if (i > 0 and s[i] == '+' or s[i] == '-') {
+                rString = tmp;
+                tmp = s[i];
+            } else if (s[i] == 'i') {
+                hasI = true;
+                if (i == 0 or s[i-1] == '+') {
+                    iString += "1";
+                } else if (s[i-1] == '-') {
+                    iString = "-1";
+                }
+            } else {tmp += s[i];}
         }
+        if (not hasI) {
+            real = stod(tmp);
+            imaginary = 0;
+        } else {
+            if (iString.empty()) {iString = tmp;}
+            if (rString.empty()) {real = 0;} else {real = stod(rString);}
+            if (iString.empty()) {imaginary = 0;} else {imaginary = stod(iString);}
+        }
+    } else {
+        throw invalid_argument("Le complexe renseigné n'est pas valide");
     }
-    imaginaryStr = tmp;
-    real = stod(realStr);
-    imaginary = stod(imaginaryStr);
 }
 
 
@@ -43,20 +52,95 @@ double Complex::getReal() const {
     return real;
 }
 
+
 double Complex::getImaginary() const {
     return imaginary;
 }
 
+
 void Complex::setReal(double r) {
     Complex::real = r;
 }
+
 
 void Complex::setImaginary(double i) {
     Complex::imaginary = i;
 }
 
 
-string Complex::toString() {
+Complex Complex::operator +(Complex object) const {
+    return Complex(real + object.real, imaginary + object.imaginary);
+}
+
+
+Complex Complex::operator -(Complex object) const {
+    return Complex(real - object.real, imaginary - object.imaginary);
+}
+
+
+Complex Complex::operator *(Complex object) const {
+    double r = real * object.real - imaginary * object.imaginary;
+    double i = real * object.imaginary + imaginary * object.real;
+    return Complex(r, i);
+}
+
+
+Complex Complex::operator /(Complex object) const {
+    Complex numerator = Complex(real, imaginary) * object.conjugue();
+    double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
+    double r = numerator.real / denominator;
+    double i = numerator.imaginary / denominator;
+    return Complex(r, i);
+}
+
+
+void Complex::operator +=(Complex object) {
+    real = real + object.real;
+    imaginary = imaginary + object.imaginary;
+};
+
+
+void Complex::operator -=(Complex object) {
+    real = real - object.real;
+    imaginary = imaginary - object.imaginary;
+};
+
+
+void Complex::operator *=(Complex object) {
+    real = real * object.real - imaginary * object.imaginary;
+    imaginary = real * object.imaginary + imaginary * object.real;
+};
+
+
+void Complex::operator /=(Complex object) {
+    Complex numerator = Complex(real, imaginary) * object.conjugue();
+    double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
+    real = numerator.real / denominator;
+    imaginary = numerator.imaginary / denominator;
+};
+
+
+Complex Complex::conjugue() const {
+    return Complex(real, -imaginary);
+}
+
+
+double Complex::module() const {
+    return sqrt(pow(real, 2) + pow(imaginary, 2));
+}
+
+
+Complex Complex::oppose() const {
+    return Complex(-real, -imaginary);
+}
+
+
+Complex Complex::inverse() const {
+    return Complex(real, imaginary).conjugue() / (Complex(real, imaginary) * Complex(real, imaginary).conjugue());
+}
+
+
+string Complex::toString() const {
     if (imaginary == 1) {
         return to_string(real) + "+i";
     } else if (imaginary == 0) {
@@ -66,50 +150,4 @@ string Complex::toString() {
     } else if (imaginary < 0) {
         return to_string(real) + "-i" + to_string(imaginary);
     }
-}
-
-
-Complex Complex::operator +(Complex object) {
-    return Complex(real + object.real, imaginary + object.imaginary);
-}
-
-
-Complex Complex::operator -(Complex object) {
-    return Complex(real - object.real, imaginary - object.imaginary);
-}
-
-
-Complex Complex::operator *(Complex object) {
-    double r = real * object.real - imaginary * object.imaginary;
-    double i = real * object.imaginary + imaginary * object.real;
-    return Complex(r, i);
-}
-
-
-Complex Complex::operator /(Complex object) {
-    Complex numerator = Complex(real, imaginary) * object.conjugue();
-    double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
-    double r = numerator.real / denominator;
-    double i = numerator.imaginary / denominator;
-    return Complex(r, i);
-}
-
-
-Complex Complex::conjugue() {
-    return Complex(real, -imaginary);
-}
-
-
-double Complex::module() {
-    return sqrt(pow(real, 2) + pow(imaginary, 2));
-}
-
-
-Complex Complex::oppose() {
-    return Complex(-real, -imaginary);
-}
-
-
-Complex Complex::inverse() {
-    return Complex(real, imaginary).conjugue() / (Complex(real, imaginary) * Complex(real, imaginary).conjugue());
 }
