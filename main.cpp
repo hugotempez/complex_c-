@@ -6,16 +6,23 @@
 using namespace std;
 
 
+/**
+ * Print des informations générales sur l'utilisation et la visualisation du programme.
+ * @return void.
+ */
 void info() {
     cout << "!!!!!!!!!!!!!!!! INFO !!!!!!!!!!!!!!!!" << endl;
     cout << "Les accents sont absents car ne s'affichant pas correctement." << endl;
     cout << "Concernant le constructeur prenant un string en parametre :" << endl;
     cout << "\t- la virgule doit etre represente par un point UNIQUEMENT." << endl;
-    cout << "\t- le \"i\" de le partie imaginaire doit etre place a la fin de cette partie imaginaire" << endl;
-    cout << "\n";
+    cout << "\t- le \"i\" de le partie imaginaire doit etre place a la fin de cette partie imaginaire" << endl << endl;
 }
 
 
+/**
+ * Permet à l'utilisateur de saisir un nombre complexe.
+ * @return la saisie de l'utilisateur.
+ */
 string saisie() {
     string c;
     cout << "Saisissez un complexe valide : ";
@@ -24,6 +31,10 @@ string saisie() {
 }
 
 
+/**
+ * Permet à l'utilisateur de faire du calcule arithmétique complexe.
+ * @return 0 si le calcul s'est bien passé ou -1 dans le cas contraire.
+ */
 int calcul() {
     string c1string = saisie();
     int choice = 0;
@@ -65,6 +76,10 @@ int calcul() {
 }
 
 
+/**
+ * Menu permettant à l'utilisateur de choisir ce qu'il veux faire.
+ * @return void.
+ */
 void menu() {
     while (true) {
         int choice = 0;
@@ -97,9 +112,9 @@ void menu() {
                 break;
             case 6:
             {
-                Complex comp = Complex(saisie());
-                cout << "partie reel = " << comp.getReal() << "\n" << "partie imaginaire = " << comp.getImaginary() << endl;
-                cout << comp.toString() << endl;
+                Complex c = Complex(saisie());
+                cout << "partie reel = " << c.getReal() << "\n" << "partie imaginaire = " << c.getImaginary() << endl;
+                cout << c.toString() << endl;
                 break;
             }
             default:
@@ -111,6 +126,10 @@ void menu() {
 }
 
 
+/**
+ * Programme principal.
+ * @return 0.
+ */
 int main() {
     info();
     menu();

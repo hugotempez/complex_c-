@@ -10,12 +10,21 @@
 using namespace std;
 
 
+/**
+ * Constructeur avec type double.
+ * @param r Partie réel.
+ * @param i Partie imaginaire.
+ */
 Complex::Complex(double r, double i) {
     real = r;
     imaginary = i;
 }
 
 
+/**
+ * Constructeur avec type string.
+ * @param s Nombre complexe sous forme de string.
+ */
 Complex::Complex(const string& s) {
     if (regex_match(s, regex(R"(^[-+]?\d*.?\d*i?[-+]?[-+]?\d*.?\d*i?$)"))) {
         string tmp, rString, iString;
@@ -47,36 +56,67 @@ Complex::Complex(const string& s) {
 }
 
 
+/**
+ * Getter partie réel.
+ * @return La partie réel.
+ */
 double Complex::getReal() const {
     return real;
 }
 
 
+/**
+ * Getter partie imaginaire.
+ * @return La partie imaginaire.
+ */
 double Complex::getImaginary() const {
     return imaginary;
 }
 
 
+/**
+ * Setter partie réel.
+ * @param r Partie réel.
+ */
 void Complex::setReal(double r) {
     Complex::real = r;
 }
 
 
+/**
+ * Setter partie imaginaire.
+ * @param r Partie imaginaire.
+ */
 void Complex::setImaginary(double i) {
     Complex::imaginary = i;
 }
 
 
+/**
+ * Surcharge opérateur +.
+ * @param object Le complexe à additionner.
+ * @return L'addition des deux complexes.
+ */
 Complex Complex::operator +(Complex object) const {
     return Complex(real + object.real, imaginary + object.imaginary);
 }
 
 
+/**
+ * Surcharge opérateur -.
+ * @param object Le complexe à soustraire.
+ * @return La soustraction des deux complexes.
+ */
 Complex Complex::operator -(Complex object) const {
     return Complex(real - object.real, imaginary - object.imaginary);
 }
 
 
+/**
+ * Surcharge opérateur *.
+ * @param object Le complexe à multiplier.
+ * @return La multiplication des deux complexes.
+ */
 Complex Complex::operator *(Complex object) const {
     double r = real * object.real - imaginary * object.imaginary;
     double i = real * object.imaginary + imaginary * object.real;
@@ -84,6 +124,11 @@ Complex Complex::operator *(Complex object) const {
 }
 
 
+/**
+ * Surcharge opérateur /.
+ * @param object Le complexe à diviser.
+ * @return La division des deux complexes.
+ */
 Complex Complex::operator /(Complex object) const {
     Complex numerator = Complex(real, imaginary) * object.conjugue();
     double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
@@ -93,24 +138,40 @@ Complex Complex::operator /(Complex object) const {
 }
 
 
+/**
+ * Surcharge opérateur +=.
+ * @param object Le complexe à additionner.
+ */
 void Complex::operator +=(Complex object) {
     real = real + object.real;
     imaginary = imaginary + object.imaginary;
 };
 
 
+/**
+ * Surcharge opérateur -=.
+ * @param object Le complexe à soustraire.
+ */
 void Complex::operator -=(Complex object) {
     real = real - object.real;
     imaginary = imaginary - object.imaginary;
 };
 
 
+/**
+ * Surcharge opérateur *=.
+ * @param object Le complexe à multiplier.
+ */
 void Complex::operator *=(Complex object) {
     real = real * object.real - imaginary * object.imaginary;
     imaginary = real * object.imaginary + imaginary * object.real;
 };
 
 
+/**
+ * Surcharge opérateur /=.
+ * @param object Le complexe à diviser.
+ */
 void Complex::operator /=(Complex object) {
     Complex numerator = Complex(real, imaginary) * object.conjugue();
     double denominator = pow(object.real, 2) + pow(object.imaginary, 2);
@@ -119,39 +180,90 @@ void Complex::operator /=(Complex object) {
 };
 
 
+/**
+ * Calcule le conjugué du complexe.
+ * @return Le conjugué du complexe.
+ */
 Complex Complex::conjugue() const {
     return Complex(real, -imaginary);
 }
 
 
+/**
+ * Calcule le module du complexe.
+ * @return Le module du complexe.
+ */
 double Complex::module() const {
     return sqrt(pow(real, 2) + pow(imaginary, 2));
 }
 
 
+/**
+ * Calcule l'opposé du complexe.
+ * @return L'opposé du complexe.
+ */
 Complex Complex::oppose() const {
     return Complex(-real, -imaginary);
 }
 
 
+/**
+ * Calcule l'inverse du complexe.
+ * @return L'inverse du complexe.
+ */
 Complex Complex::inverse() const {
     return Complex(real, imaginary).conjugue() / (Complex(real, imaginary) * Complex(real, imaginary).conjugue());
 }
 
 
+/**
+ * Permet de supprimer les zeros inutiles de la conversion double -> string.
+ * @param num Le double à convertir et formater.
+ * @return Le nombre converti en string et formaté.
+ */
+string Complex::stringFormater(double num) {
+    string s = to_string(num);
+    string returned;
+    int lastZero = 0;
+    for (int i = s.size()-1; i > 0; i--) {
+        if (s[i] != '0') {
+            lastZero = i;
+            break;
+        }
+    }
+    if (lastZero == 0) {
+        returned = s[0];
+    } else {
+        if (s[lastZero] == '.') {
+            returned = s.substr(0, lastZero);
+        } else {
+            returned = s.substr(0, lastZero+1);
+        }
+    }
+    return returned;
+}
+
+
+/**
+ * Renvoi un complexe sous la forme la plus lisible possible.
+ * @return Le complexe sous forme de string.
+ */
 string Complex::toString() const {
+    string r = stringFormater(real);
+    string i = stringFormater(imaginary);
+    string iAbs = stringFormater(abs(imaginary));
     if (real == 0 and imaginary == 0) {
         return "0";
     } else if (real == 0 and imaginary != 0) {
         if (imaginary == 1) {return "i";}
         else if (imaginary == -1) {return "-i";}
-        return to_string(imaginary) + "i";
+        return i + "i";
     } else if (real != 0 and imaginary == 0) {
-        return to_string(real);
+        return r;
     } else {
-        if (imaginary == 1) {return to_string(real) + "+i";}
-        else if (imaginary == -1) {return to_string(real) + "-i";}
-        else if (imaginary > 0) {return to_string(real) + "+" + to_string(imaginary) + "i";}
-        else if (imaginary < 0) {return to_string(real) + "-" + to_string(abs(imaginary)) + "i";}
+        if (imaginary == 1) {return r + "+i";}
+        else if (imaginary == -1) {return r + "-i";}
+        else if (imaginary > 0) {return r + "+" + i + "i";}
+        else if (imaginary < 0) {return r + "-" + iAbs + "i";}
     }
 }
