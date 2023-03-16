@@ -38,9 +38,9 @@ class Complex {
         void operator *=(Complex object);
         void operator /=(Complex object);
         Complex conjugue() const;                       //fonctionnel
-        double module() const;                          //fonctionnel a affiner
+        double module() const;                          //fonctionnel (sous forme de racine ou double ?)
         Complex oppose() const;                         //fonctionnel
-        Complex inverse() const;                        //fonctionnel
+        Complex inverse() const;                        //fonctionnel (sous forme de fraction ou reel ?)
         string toString() const;                        //fonctionnel
 };
 

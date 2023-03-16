@@ -266,4 +266,5 @@ string Complex::toString() const {
         else if (imaginary > 0) {return r + "+" + i + "i";}
         else if (imaginary < 0) {return r + "-" + iAbs + "i";}
     }
+    return "Division par 0 impossible";
 }
