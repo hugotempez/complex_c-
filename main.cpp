@@ -70,7 +70,7 @@ void menu() {
         int choice = 0;
         cout << "Choisissez l'operation a effectuer :" << endl;
         cout << "\t1. Calcul Arithmetique." << "\n" << "\t2. Conjugue." << "\n" <<  "\t3. Module." << endl;
-        cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "\t6. Tests" << "\n" << "Votre choix : " << endl;
+        cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "\t6. Tests" << "\n" << "Votre choix : ";
         try {
             cin >> choice;
         } catch (...) {
@@ -89,7 +89,6 @@ void menu() {
                 cout << Complex(saisie()).module() << endl;
                 break;
             case 4:
-                saisie();
                 cout << Complex(saisie()).oppose().toString() << endl;
                 break;
             case 5:

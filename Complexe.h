@@ -19,7 +19,7 @@ class Complex {
         double imaginary;
 
     public:
-        Complex(double r=0, double i=0);                    //fonctionnel
+        explicit Complex(double r=0, double i=0);       //fonctionnel
         explicit Complex(const string& s);              //fonctionnel
 
         double getReal() const;                         //fonctionnel

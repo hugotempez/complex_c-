@@ -17,8 +17,7 @@ Complex::Complex(double r, double i) {
 
 
 Complex::Complex(const string& s) {
-    regex pattern(R"(^[-+]?\d*.?\d*i?[-+]?[-+]?\d*.?\d*i?$)");
-    if (regex_match(s, pattern)) {
+    if (regex_match(s, regex(R"(^[-+]?\d*.?\d*i?[-+]?[-+]?\d*.?\d*i?$)"))) {
         string tmp, rString, iString;
         bool hasI = false;
         for (int i = 0; i < s.length(); i++) {
@@ -141,13 +140,18 @@ Complex Complex::inverse() const {
 
 
 string Complex::toString() const {
-    if (imaginary == 1) {
-        return to_string(real) + "+i";
-    } else if (imaginary == 0) {
+    if (real == 0 and imaginary == 0) {
+        return "0";
+    } else if (real == 0 and imaginary != 0) {
+        if (imaginary == 1) {return "i";}
+        else if (imaginary == -1) {return "-i";}
+        return to_string(imaginary) + "i";
+    } else if (real != 0 and imaginary == 0) {
         return to_string(real);
-    } else if (imaginary > 0) {
-        return to_string(real) + "+i" + to_string(imaginary);
-    } else if (imaginary < 0) {
-        return to_string(real) + "-i" + to_string(imaginary);
+    } else {
+        if (imaginary == 1) {return to_string(real) + "+i";}
+        else if (imaginary == -1) {return to_string(real) + "-i";}
+        else if (imaginary > 0) {return to_string(real) + "+" + to_string(imaginary) + "i";}
+        else if (imaginary < 0) {return to_string(real) + "-" + to_string(abs(imaginary)) + "i";}
     }
 }
