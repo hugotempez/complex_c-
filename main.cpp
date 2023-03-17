@@ -7,8 +7,7 @@ using namespace std;
 
 
 /**
- * Print des informations générales sur l'utilisation et la visualisation du programme.
- * @return void.
+ * @brief Print des informations générales sur l'utilisation et la visualisation du programme.
  */
 void info() {
     cout << "!!!!!!!!!!!!!!!! INFO !!!!!!!!!!!!!!!!" << endl;
@@ -20,10 +19,22 @@ void info() {
 
 
 /**
- * Permet à l'utilisateur de saisir un nombre complexe.
- * @return la saisie de l'utilisateur.
+ * @brief Permet à l'utilisateur de saisir un double.
+ * @return Le double saisie par l'utilisateur.
  */
-string saisie() {
+double saisieDouble() {
+    double r;
+    cout << "Saisissez un double valide : ";
+    cin >> r;
+    return r;
+}
+
+
+/**
+ * @brief Permet à l'utilisateur de saisir un nombre complexe.
+ * @return La saisie de l'utilisateur.
+ */
+string saisieComplexe() {
     string c;
     cout << "Saisissez un complexe valide : ";
     cin >> c;
@@ -32,18 +43,18 @@ string saisie() {
 
 
 /**
- * Permet à l'utilisateur de faire du calcule arithmétique complexe.
+ * @brief Permet à l'utilisateur de faire du calcul arithmétique complexe.
  * @return 0 si le calcul s'est bien passé ou -1 dans le cas contraire.
  */
 int calcul() {
     try {
-        string c1string = saisie();
+        string c1string = saisieComplexe();
         int choice = 0;
         cout << "Saisissez le chiffre associe a l'operateur desire : " << endl;
         cout << "\t1. +" << "\n" << "\t2. -" << "\n" << "\t3. *" << "\n" << "\t4. /" << endl;
         cout << "Votre choix : ";
         cin >> choice;
-        string c2string = saisie();
+        string c2string = saisieComplexe();
         switch (choice) {
             case 1:
                 cout << "\n" << "(" << c1string << ")" << " + " << "(" << c2string << ")" << " = ";
@@ -77,60 +88,176 @@ int calcul() {
 
 
 /**
- * Menu permettant à l'utilisateur de choisir ce qu'il veux faire.
- * @return void.
+ * @brief Permet à l'utilisateur de tester tous les opérateurs.
  */
-void menu() {
-    while (true) {
-        try {
-            int choice = 0;
-            cout << "Choisissez l'operation a effectuer :" << endl;
-            cout << "\t1. Calcul Arithmetique." << "\n" << "\t2. Conjugue." << "\n" <<  "\t3. Module." << endl;
-            cout << "\t4. Oppose." << "\n" << "\t5. Inverse." << "\n" << "\t6. Tests" << "\n" << "Votre choix : ";
-            cin >> choice;
-            system("cls");
-            switch (choice) {
-                case 1:
-                    calcul();
-                    break;
-                case 2:
-                    cout << Complex(saisie()).conjugue().toString() << endl;
-                    break;
-                case 3:
-                    cout << Complex(saisie()).module() << endl;
-                    break;
-                case 4:
-                    cout << Complex(saisie()).oppose().toString() << endl;
-                    break;
-                case 5:
-                    cout << Complex(saisie()).inverse().toString() << endl;
-                    break;
-                case 6:
-                {
-                    Complex c = Complex(saisie());
-                    cout << "partie reel = " << c.getReal() << "\n" << "partie imaginaire = " << c.getImaginary() << endl;
-                    cout << c.toString() << endl;
-                    break;
-                }
-                default:
-                    cout << choice << " n'est pas un nombre valide dans ce menu, veuillez recommencer votre saisie.\n" << endl;
-                    menu();
-                    break;
+void menuOperateurs() {
+    string c1 = saisieComplexe();
+    int choice = 0;
+    cout << "Choisissez l'operateur :" << endl;
+    cout << "\t1. +\n" << "\t2. -\n" << "\t3. *\n" << "\t4. /\n";
+    cout << "\t5. +=\n" << "\t6. -=\n" << "\t7. *=\n" << "\t8. /=\n";
+    cout << "\t9. ==\n" << "\t10. !=\n";
+    cout << "Votre choix : ";
+    try {cin >> choice;}
+    catch (...) {
+        cout << "Choix non reconnu";
+        choice = 0;
+    }
+    string c2 = saisieComplexe();
+    switch (choice) {
+        case 1:
+        {
+            cout << Complex(Complex(c1) + Complex(c2)).toString() << endl;
+            break;
+        }
+        case 2:
+        {
+            cout << Complex(Complex(c1) - Complex(c2)).toString() << endl;
+            break;
+        }
+        case 3:
+        {
+            cout << Complex(Complex(c1) * Complex(c2)).toString() << endl;
+            break;
+        }
+        case 4:
+        {
+            cout << Complex(Complex(c1) / Complex(c2)).toString() << endl;
+            break;
+        }
+        case 5:
+        {
+            Complex result(c1);
+            result += Complex(c2);
+            cout << result.toString() << endl;
+            break;
+        }
+        case 6:
+        {
+            Complex result(c1);
+            result -= Complex(c2);
+            cout << result.toString() << endl;
+            break;
+        }
+        case 7:
+        {
+            Complex result(c1);
+            result *= Complex(c2);
+            cout << result.toString() << endl;
+            break;
+        }
+        case 8:
+        {
+            Complex result(c1);
+            result /= Complex(c2);
+            cout << result.toString() << endl;
+            break;
+        }
+        case 9:
+        {
+            if (Complex(c1) == Complex(c2)) {
+                cout << "True" << endl;
+            } else {
+                cout << "False" << endl;
             }
-        } catch (...) {
-            cout << "Votre saisie n'est pas au format escompte (1, 2, 3, 4 ou 5 uniquement)" << endl;
-            int choice = 0;
+            break;
+        }
+        case 10:
+        {
+            if (Complex(c1) != Complex(c2)) {
+                cout << "True" << endl;
+            } else {
+                cout << "False" << endl;
+            }
+            break;
+        }
+        default:
+        {
+            cout << "Choix invalide" << endl;
+            break;
         }
     }
+    cout << "\n";
 }
 
 
 /**
- * Programme principal.
+ * @brief Menu permettant à l'utilisateur de choisir ce qu'il veux faire.
+ * @return void.
+ */
+void menu() {
+    try {
+        int choice = 0;
+        cout << "Choisissez l'operation a effectuer :" << endl;
+        cout << "\t1. Calcul Arithmetique.\n" << "\t2. Conjugue.\n" <<  "\t3. Module.\n";
+        cout << "\t4. Oppose.\n" << "\t5. Inverse.\n" << "\t6. Test constructeur doubles.\n";
+        cout << "\t7. Test constructeur string.\n" <<  "\t8. Test operateurs.\n" << "Votre choix : ";
+        cin >> choice;
+        system("cls");
+        switch (choice) {
+            case 1:
+                cout << "Calcul Arithmetique" << endl;
+                calcul();
+                break;
+            case 2:
+                cout << "Conjugue" << endl;
+                cout << Complex(saisieComplexe()).conjugue().toString() << endl;
+                break;
+            case 3:
+                cout << "Module" << endl;
+                cout << Complex(saisieComplexe()).module() << endl;
+                break;
+            case 4:
+                cout << "Oppose" << endl;
+                cout << Complex(saisieComplexe()).oppose().toString() << endl;
+                break;
+            case 5:
+                cout << "Inverse" << endl;
+                cout << Complex(saisieComplexe()).inverse().toString() << endl;
+                break;
+            case 6:
+            {
+                cout << "Test constructeur doubles" << endl;
+                double r = saisieDouble();
+                double i = saisieDouble();
+                Complex c = Complex(r, i);
+                c.argumentsToString();
+                cout << c.toString() << endl;
+                break;
+            }
+            case 7:
+            {
+                cout << "Test constructeur string" << endl;
+                Complex c = Complex(saisieComplexe());
+                c.argumentsToString();
+                cout << c.toString() << endl;
+                break;
+            }
+            case 8:
+                cout << "Test operateurs" << endl;
+                menuOperateurs();
+                break;
+            default:
+                cout << choice << " n'est pas un nombre valide dans ce menu, veuillez recommencer votre saisie.\n" << endl;
+                menu();
+                break;
+        }
+    } catch (...) {
+        cout << "Votre saisie n'est pas au format escompte (1, 2, 3, 4 ou 5 uniquement)" << endl;
+        int choice = 0;
+    }
+    
+}
+
+
+/**
+ * @brief Programme principal.
  * @return 0.
  */
 int main() {
     info();
-    menu();
+    while (true) {
+        menu();
+    }
     return 0;
 }

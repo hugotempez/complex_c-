@@ -11,9 +11,9 @@ using namespace std;
 
 
 /**
- * Constructeur avec type double.
- * @param r Partie réel.
- * @param i Partie imaginaire.
+ * @brief Constructeur utilisant des doubles en paramétres.
+ * @param r La partie réel du complexe.
+ * @param i La partie imaginaire du complexe.
  */
 Complex::Complex(double r, double i) {
     real = r;
@@ -22,8 +22,8 @@ Complex::Complex(double r, double i) {
 
 
 /**
- * Constructeur avec type string.
- * @param s Nombre complexe sous forme de string.
+ * @brief Le constructeur utilisant un string en paramétre.
+ * @param s Le string à convertir en complexe.
  */
 Complex::Complex(const string& s) {
     if (regex_match(s, regex(R"(^[-+]?\d*.?\d*i?[-+]?[-+]?\d*.?\d*i?$)"))) {
@@ -57,8 +57,8 @@ Complex::Complex(const string& s) {
 
 
 /**
- * Getter partie réel.
- * @return La partie réel.
+ * @brief Getter partie réel.
+ * @return La partie réel du complexe.
  */
 double Complex::getReal() const {
     return real;
@@ -66,8 +66,8 @@ double Complex::getReal() const {
 
 
 /**
- * Getter partie imaginaire.
- * @return La partie imaginaire.
+ * @brief Getter partie imaginaire.
+ * @return La partie imaginaire du complexe.
  */
 double Complex::getImaginary() const {
     return imaginary;
@@ -75,8 +75,8 @@ double Complex::getImaginary() const {
 
 
 /**
- * Setter partie réel.
- * @param r Partie réel.
+ * @brief Setter partie réel.
+ * @param real La partie réel à modifier.
  */
 void Complex::setReal(double r) {
     Complex::real = r;
@@ -84,8 +84,8 @@ void Complex::setReal(double r) {
 
 
 /**
- * Setter partie imaginaire.
- * @param r Partie imaginaire.
+ * @brief Setter partie imaginaire.
+ * @param imaginary La partie imaginaire à modifier.
  */
 void Complex::setImaginary(double i) {
     Complex::imaginary = i;
@@ -93,9 +93,9 @@ void Complex::setImaginary(double i) {
 
 
 /**
- * Surcharge opérateur +.
- * @param object Le complexe à additionner.
- * @return L'addition des deux complexes.
+ * @brief Surcharge opérateur +.
+ * @param object Le complexe à ajouter au premier.
+ * @return Le complexe resultant de l'addition des deux complexes.
  */
 Complex Complex::operator +(Complex object) const {
     return Complex(real + object.real, imaginary + object.imaginary);
@@ -103,9 +103,9 @@ Complex Complex::operator +(Complex object) const {
 
 
 /**
- * Surcharge opérateur -.
- * @param object Le complexe à soustraire.
- * @return La soustraction des deux complexes.
+ * @brief Surcharge opérateur -.
+ * @param object Le complexe à soustraire au premier.
+ * @return Le complexe resultant de la soustraction des deux complexes.
  */
 Complex Complex::operator -(Complex object) const {
     return Complex(real - object.real, imaginary - object.imaginary);
@@ -113,9 +113,9 @@ Complex Complex::operator -(Complex object) const {
 
 
 /**
- * Surcharge opérateur *.
- * @param object Le complexe à multiplier.
- * @return La multiplication des deux complexes.
+ * @brief Surcharge opérateur *.
+ * @param object Le complexe à multiplier au premier.
+ * @return Le complexe resultant de la multiplication des deux complexes.
  */
 Complex Complex::operator *(Complex object) const {
     double r = real * object.real - imaginary * object.imaginary;
@@ -125,9 +125,9 @@ Complex Complex::operator *(Complex object) const {
 
 
 /**
- * Surcharge opérateur /.
- * @param object Le complexe à diviser.
- * @return La division des deux complexes.
+ * @brief Surcharge opérateur /.
+ * @param object Le complexe à diviser au premier.
+ * @return Le complexe resultant de la division des deux complexes.
  */
 Complex Complex::operator /(Complex object) const {
     Complex numerator = Complex(real, imaginary) * object.conjugue();
@@ -139,8 +139,8 @@ Complex Complex::operator /(Complex object) const {
 
 
 /**
- * Surcharge opérateur +=.
- * @param object Le complexe à additionner.
+ * @brief Surcharge opérateur +=.
+ * @param object Le complexe à ajouter au premier.
  */
 void Complex::operator +=(Complex object) {
     real = real + object.real;
@@ -149,8 +149,8 @@ void Complex::operator +=(Complex object) {
 
 
 /**
- * Surcharge opérateur -=.
- * @param object Le complexe à soustraire.
+ * @brief Surcharge opérateur -=.
+ * @param object Le complexe à soustraire au premier.
  */
 void Complex::operator -=(Complex object) {
     real = real - object.real;
@@ -159,18 +159,22 @@ void Complex::operator -=(Complex object) {
 
 
 /**
- * Surcharge opérateur *=.
- * @param object Le complexe à multiplier.
+ * @brief Surcharge opérateur *=.
+ * @param object Le complexe à multiplier au premier.
  */
 void Complex::operator *=(Complex object) {
-    real = real * object.real - imaginary * object.imaginary;
-    imaginary = real * object.imaginary + imaginary * object.real;
+    double rA = real * object.real;
+    double rB = imaginary * object.imaginary;
+    double iA = real * object.imaginary;
+    double iB = imaginary * object.real;
+    real = rA - rB;
+    imaginary = iA + iB;
 };
 
 
 /**
- * Surcharge opérateur /=.
- * @param object Le complexe à diviser.
+ * @brief Surcharge opérateur /=.
+ * @param object Le complexe à diviser au premier.
  */
 void Complex::operator /=(Complex object) {
     Complex numerator = Complex(real, imaginary) * object.conjugue();
@@ -181,7 +185,35 @@ void Complex::operator /=(Complex object) {
 
 
 /**
- * Calcule le conjugué du complexe.
+ * @brief Surcharge opérateur ==.
+ * @param object Le complexe à comparer au premier.
+ * @return True si les deux complexes sont égaux, sinon faux.
+ */
+bool Complex::operator ==(Complex object) const {
+    if (real == object.real and imaginary == object.imaginary){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+/**
+  * @brief Surcharge opérateur !=.
+  * @param object Le complexe à comparer au premier.
+  * @return True si les deux complexes sont différents, sinon faux.
+  */
+bool Complex::operator !=(Complex object) const {
+    if (real != object.real or imaginary != object.imaginary) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+/**
+ * @brief Calcul le conjugué du complexe.
  * @return Le conjugué du complexe.
  */
 Complex Complex::conjugue() const {
@@ -190,7 +222,7 @@ Complex Complex::conjugue() const {
 
 
 /**
- * Calcule le module du complexe.
+ * @brief Calcul le module du complexe.
  * @return Le module du complexe.
  */
 double Complex::module() const {
@@ -199,7 +231,7 @@ double Complex::module() const {
 
 
 /**
- * Calcule l'opposé du complexe.
+ * @brief Calcul l'opposé du complexe.
  * @return L'opposé du complexe.
  */
 Complex Complex::oppose() const {
@@ -208,7 +240,7 @@ Complex Complex::oppose() const {
 
 
 /**
- * Calcule l'inverse du complexe.
+ * @brief Calcul l'inverse du complexe.
  * @return L'inverse du complexe.
  */
 Complex Complex::inverse() const {
@@ -217,9 +249,8 @@ Complex Complex::inverse() const {
 
 
 /**
- * Permet de supprimer les zeros inutiles de la conversion double -> string.
- * @param num Le double à convertir et formater.
- * @return Le nombre converti en string et formaté.
+ * @brief Renvoi le complexe sous forme de string.
+ * @return Un string du complexe.
  */
 string Complex::stringFormater(double num) {
     string s = to_string(num);
@@ -267,4 +298,13 @@ string Complex::toString() const {
         else if (imaginary < 0) {return r + "-" + iAbs + "i";}
     }
     return "Division par 0 impossible";
+}
+
+
+/**
+ * @brief Écris dans la console les propriétés de l'objet complexe.
+ */
+void Complex::argumentsToString() const {
+    cout << "Partie reel : " << real << endl;
+    cout << "Partie imaginaire : " << imaginary << endl;
 }
